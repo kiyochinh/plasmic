@@ -86,9 +86,10 @@ export function handleError(error: Error, source?: string) {
   setTimeout(() => {
     stampObjectUuid(error);
     Sentry.captureException(error);
-    analytics().track("Error", {
-      error: shallowJson(error),
-    });
+    console.log(error);
+    // analytics().track("Error", {
+    //   error: shallowJson(error),
+    // });
   }, 0);
 }
 
@@ -198,14 +199,13 @@ export function normalizeError(error: any) {
   return isStampedIgnoreError(error)
     ? error
     : error instanceof Error
-    ? error
-    : error && error.error
-    ? (error.error as Error)
-    : typeof error === "string"
-    ? new Error(error)
-    : new Error(
-        `Unknown error: ${
-          typeof error === "object" ? JSON.stringify(error) : error
-        }`
-      );
+      ? error
+      : error && error.error
+        ? (error.error as Error)
+        : typeof error === "string"
+          ? new Error(error)
+          : new Error(
+            `Unknown error: ${typeof error === "object" ? JSON.stringify(error) : error
+            }`
+          );
 }

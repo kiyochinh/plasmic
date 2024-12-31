@@ -36,10 +36,10 @@ export class Studio extends React.Component<StudioProps, {}> {
     const appConfig = studioCtx.appCtx.appConfig;
     fixStudioIframePositionAndOverflow();
 
-    analytics().appendBaseEventProperties({
-      ProjectId: this.props.studioCtx.siteInfo.id,
-      ProjectName: this.props.studioCtx.siteInfo.name,
-    });
+    // analytics().appendBaseEventProperties({
+    //   ProjectId: this.props.studioCtx.siteInfo.id,
+    //   ProjectName: this.props.studioCtx.siteInfo.name,
+    // });
 
     // Load all chunks we'll need in advance:
     spawn(getCanvasPkgs());

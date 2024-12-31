@@ -133,7 +133,7 @@ export function bindShortcutHandlers<Action extends string>(
         action: shortcut.action,
         combo,
       };
-      analytics().track(eventName, eventProps);
+      // analytics().track(eventName, eventProps);
 
       // Mousetrap calls `preventDefault` and `stopPropagation` if `false` is returned.
       // This is a bit confusing, because we return `true` on success.

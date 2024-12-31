@@ -47,7 +47,7 @@ export class XHRStatus0Error extends Error {
   }
 }
 
-export class UnknownApiError extends Error {}
+export class UnknownApiError extends Error { }
 
 export const ajax = async (
   method: string,
@@ -79,18 +79,18 @@ export const ajax = async (
     const params =
       data instanceof FormData && data.has("file")
         ? {
-            processData: false,
-            // This is imperative to force jQuery not to add a Content-Type,
-            // leaving that to the browser which can handle FormData properly.
-            // Reference: https://stackoverflow.com/questions/5392344/
-            contentType: false as any,
-            data,
-          }
+          processData: false,
+          // This is imperative to force jQuery not to add a Content-Type,
+          // leaving that to the browser which can handle FormData properly.
+          // Reference: https://stackoverflow.com/questions/5392344/
+          contentType: false as any,
+          data,
+        }
         : {
-            mimeType: "application/json",
-            contentType: "application/json; charset=utf-8",
-            data: method === "get" ? undefined : maybe(data, JSON.stringify),
-          };
+          mimeType: "application/json",
+          contentType: "application/json; charset=utf-8",
+          data: method === "get" ? undefined : maybe(data, JSON.stringify),
+        };
 
     void $.ajax({
       url: fullApiPath(apiSubpath) + search,
@@ -114,8 +114,7 @@ export const ajax = async (
               // ApiErrors. So it is now just a JSON object, not an Error.
               // We create an UnknownApiError for it instead.
               transformed = new UnknownApiError(
-                `${method} ${apiSubpath} failed: ${
-                  (transformed as Error).message
+                `${method} ${apiSubpath} failed: ${(transformed as Error).message
                 }`
               );
             }
@@ -124,16 +123,14 @@ export const ajax = async (
           (xhr.status === 0
             ? new XHRStatus0Error(`${method} ${apiSubpath} failed`)
             : new UnknownApiError(
-                `${method} ${apiSubpath} failed [${xhr.status}/${
-                  xhr.readyState
-                }]: ${err}\nstatus ${txtStatus}\ndata ${
-                  data === undefined
-                    ? "undefined"
-                    : hideDataOnError
-                    ? "[redacted]"
-                    : truncateText(200, JSON.stringify(data))
-                }`
-              ));
+              `${method} ${apiSubpath} failed [${xhr.status}/${xhr.readyState
+              }]: ${err}\nstatus ${txtStatus}\ndata ${data === undefined
+                ? "undefined"
+                : hideDataOnError
+                  ? "[redacted]"
+                  : truncateText(200, JSON.stringify(data))
+              }`
+            ));
         if (!noErrorTransform) {
           error.stack += `\n${callingStack}`;
         }
@@ -487,10 +484,10 @@ export function filteredApi(
   ];
   const checkProjectIdInFirstArg =
     (f: any) =>
-    (reqProjectId: string, ...args: any[]) => {
-      checkprojectId(reqProjectId);
-      return f(reqProjectId, ...args);
-    };
+      (reqProjectId: string, ...args: any[]) => {
+        checkprojectId(reqProjectId);
+        return f(reqProjectId, ...args);
+      };
 
   const isWhitelistedStorageKey = (key: string) => {
     return (
@@ -577,16 +574,16 @@ export function filteredApi(
     publishProject: checkProjectIdInFirstArg,
     listPkgVersionsWithoutData:
       (f) =>
-      async (...args) => {
-        assert(args[0] === (await getPkgId()), "Unexpected pkgId");
-        return f(...args);
-      },
+        async (...args) => {
+          assert(args[0] === (await getPkgId()), "Unexpected pkgId");
+          return f(...args);
+        },
     updatePkgVersion:
       (f) =>
-      async (...args) => {
-        assert(args[0] === (await getPkgId()), "Unexpected pkgId");
-        return f(...args);
-      },
+        async (...args) => {
+          assert(args[0] === (await getPkgId()), "Unexpected pkgId");
+          return f(...args);
+        },
     revertToVersion: checkProjectIdInFirstArg,
     getProjectRevWithoutData: checkProjectIdInFirstArg,
     listBranchesForProject: checkProjectIdInFirstArg,
@@ -611,16 +608,16 @@ export function filteredApi(
     executeDataSourceStudioOp: checkProjectIdInFirstArg,
     getDataSourceById:
       (innerGetDataSourceById) =>
-      async (
-        dataSourceId: string,
-        opts: Parameters<typeof apiProxy.getDataSourceById>[1]
-      ) => {
-        return innerGetDataSourceById(dataSourceId, {
-          ...(opts ?? {}),
-          // Enforce that the host app doesn't return data source settings
-          excludeSettings: true,
-        });
-      },
+        async (
+          dataSourceId: string,
+          opts: Parameters<typeof apiProxy.getDataSourceById>[1]
+        ) => {
+          return innerGetDataSourceById(dataSourceId, {
+            ...(opts ?? {}),
+            // Enforce that the host app doesn't return data source settings
+            excludeSettings: true,
+          });
+        },
     setMainBranchProtection: checkProjectIdInFirstArg,
     whitelistProjectIdToCopy: checkProjectIdInFirstArg,
   };
@@ -656,7 +653,7 @@ export function setUser(user: ApiUser) {
     fullName: fullName(user),
     domain: email.split("@")[1],
   });
-  analytics().setUser(id);
+  // analytics().setUser(id);
   Sentry.configureScope((scope) => {
     scope.setUser({ id, ...traits });
   });
@@ -669,8 +666,8 @@ export function invalidationKey(method: string, ...args: any[]) {
 export function apiKey<
   Method extends keyof Api,
   Args extends Api[Method] extends (..._args: any[]) => any
-    ? Parameters<Api[Method]>
-    : never
+  ? Parameters<Api[Method]>
+  : never
 >(method: Method, ...args: Args) {
   return invalidationKey(method, ...args);
 }

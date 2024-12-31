@@ -108,10 +108,10 @@ export class MenuBuilder {
         onClick={(event) => {
           const target = event.domEvent.target;
           if (target) {
-            analytics().track("menu", {
-              item: event.key,
-              menuName: opts.menuName,
-            });
+            // analytics().track("menu", {
+            //   item: event.key,
+            //   menuName: opts.menuName,
+            // });
           }
           opts.onMenuClick?.(event);
         }}

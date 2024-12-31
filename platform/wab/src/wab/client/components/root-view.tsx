@@ -332,10 +332,10 @@ function LoggedInContainer(props: LoggedInContainerProps) {
                       const userAccessLevel =
                         (team
                           ? getAccessLevelToResource(
-                              { type: "team", resource: team },
-                              appCtx.selfInfo,
-                              appCtx.perms
-                            )
+                            { type: "team", resource: team },
+                            appCtx.selfInfo,
+                            appCtx.perms
+                          )
                           : undefined) ?? "blocked";
                       if (
                         accessLevelRank(userAccessLevel) <=
@@ -498,19 +498,19 @@ export function Root() {
         : getMaximumTierFromTeams(appCtx.teams);
 
       // TODO: Move identify to server when we can rely more on PostHog product analytics
-      analytics().identify(appCtx.selfInfo.id, {
-        email: appCtx.selfInfo.email,
-        firstName: appCtx.selfInfo.firstName,
-        lastName: appCtx.selfInfo.lastName,
-        isWhiteLabel: appCtx.selfInfo.isWhiteLabel,
-        whiteLabelId: appCtx.selfInfo.whiteLabelId,
-        whiteLabelEmail: appCtx.selfInfo.whiteLabelInfo?.email,
-        tier,
-      });
+      // analytics().identify(appCtx.selfInfo.id, {
+      //   email: appCtx.selfInfo.email,
+      //   firstName: appCtx.selfInfo.firstName,
+      //   lastName: appCtx.selfInfo.lastName,
+      //   isWhiteLabel: appCtx.selfInfo.isWhiteLabel,
+      //   whiteLabelId: appCtx.selfInfo.whiteLabelId,
+      //   whiteLabelEmail: appCtx.selfInfo.whiteLabelInfo?.email,
+      //   tier,
+      // });
 
-      if (["enterprise", "team", "pro"].includes(tier)) {
-        analytics().recordSession();
-      }
+      // if (["enterprise", "team", "pro"].includes(tier)) {
+      //   analytics().recordSession();
+      // }
     }
     return appCtx;
   };
@@ -538,7 +538,7 @@ export function Root() {
             contents={(appCtx: /*TWZ*/ AppCtx) => {
               return providesAppCtx(appCtx)(
                 <NonAuthCtxContext.Provider value={nonAuthCtx}>
-                  <div className={"root"} onPointerDown={() => {}}>
+                  <div className={"root"} onPointerDown={() => { }}>
                     <Switch>
                       <Route
                         exact
